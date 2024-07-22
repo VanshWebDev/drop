@@ -27,10 +27,10 @@
   cursor: pointer;
   text-align: center;
   border-bottom: 1px solid #ccc;
-  /* background-color: #fff; */
+  background-color: #fff;
 }
 
 .dropdown-option:hover,
 .dropdown-option:active {
-  background-color: #5ae430;
+  background-color: #f0f0f0;
 }

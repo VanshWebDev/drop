@@ -4,14 +4,13 @@ import "./Dropdown.css";
 const CustomDropdown = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const dropdownRef = useRef(null);
-  const [a, seta] = useState("");
-  const [b, setb] = useState("");
-  const options = ["Option 1", "Option 2", "Option 3"];
-
+  const [interactionY, setInteractionY] = useState("");
+  const [calculatedOption, setCalculatedOption] = useState("");
+  const [options, setOptions] = useState(["Option 1", "Option 2", "Option 3"]);
+  
   const handleTouchInteraction = (event) => {
     const touchY = event.changedTouches ? event.changedTouches[0].clientY : event.clientY;
-    seta(touchY);
-    console.log("Interaction at:", touchY);
+    setInteractionY(touchY);
 
     const dropdownElement = dropdownRef.current;
     if (dropdownElement) {
@@ -19,7 +18,21 @@ const CustomDropdown = () => {
       const optionHeight = rect.height / options.length;
       const index = Math.floor((touchY - rect.top) / optionHeight);
       const newOption = options[Math.max(0, Math.min(options.length - 1, index))];
-      setb(newOption);
+      setCalculatedOption(newOption);
+    }
+  };
+
+  const handleTouchEnd = (event) => {
+    const touchY = event.changedTouches ? event.changedTouches[0].clientY : event.clientY;
+    console.log("Touch End at:", touchY);
+
+    const dropdownElement = dropdownRef.current;
+    if (dropdownElement) {
+      const rect = dropdownElement.getBoundingClientRect();
+      const optionHeight = rect.height / options.length;
+      const index = Math.floor((touchY - rect.top) / optionHeight);
+      const newOption = options[Math.max(0, Math.min(options.length - 1, index))];
+
       console.log("Selected Option:", newOption);
       setSelectedOption(newOption);
     }
@@ -31,10 +44,10 @@ const CustomDropdown = () => {
       ref={dropdownRef}
       onTouchStart={handleTouchInteraction}
       onTouchMove={handleTouchInteraction}
-      onTouchEnd={handleTouchInteraction}
+      onTouchEnd={handleTouchEnd}
     >
-      <p>I at: {a}</p>
-      <p>SO: {b}</p>
+      <p>I Y-: {interactionY}</p>
+      <p>Option: {calculatedOption}</p>
       <div className="dropdown-display">
         {selectedOption ? `Selected: ${selectedOption}` : "Select an option"}
       </div>

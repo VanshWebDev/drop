@@ -1,31 +1,27 @@
-import React, { useState, useRef } from 'react';
-import "./Dropdown.css"
+import React, { useState, useRef } from "react";
+import "./Dropdown.css";
+
 const CustomDropdown = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const dropdownRef = useRef(null);
+  const [a, seta] = useState("");
+  const [b, setb] = useState("");
+  const options = ["Option 1", "Option 2", "Option 3"];
 
-  const options = ['Option 1', 'Option 2', 'Option 3'];
-
-  const handleTouchStart = (event) => {
-    console.log('Touch Start:', event.touches[0].clientY);
-  };
-
-  const handleTouchMove = (event) => {
-    console.log('Touch Move:', event.touches[0].clientY);
-  };
-
-  const handleTouchEnd = (event) => {
-    const touchY = event.changedTouches[0].clientY;
-    console.log('Touch End:', touchY);
+  const handleTouchInteraction = (event) => {
+    const touchY = event.touches ? event.touches[0].clientY : event.clientY;
+    seta(touchY);
+    console.log("Interaction at:", touchY);
 
     const dropdownElement = dropdownRef.current;
     if (dropdownElement) {
       const rect = dropdownElement.getBoundingClientRect();
       const optionHeight = rect.height / options.length;
       const index = Math.floor((touchY - rect.top) / optionHeight);
-      const newOption = options[Math.max(0, Math.min(options.length - 1, index))];
-
-      console.log('Selected Option:', newOption);
+      const newOption =
+        options[Math.max(0, Math.min(options.length - 1, index))];
+      setb(newOption);
+      console.log("Selected Option:", newOption);
       setSelectedOption(newOption);
     }
   };
@@ -34,12 +30,14 @@ const CustomDropdown = () => {
     <div
       className="dropdown"
       ref={dropdownRef}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      onTouchStart={handleTouchInteraction}
+      onTouchMove={handleTouchInteraction}
+      onTouchEnd={handleTouchInteraction}
     >
+      <p>Interaction at:{a}</p>
+      <p>Selected Option:{b}</p>
       <div className="dropdown-display">
-        {selectedOption ? `Selected: ${selectedOption}` : 'Select an option'}
+        {selectedOption ? `Selected: ${selectedOption}` : "Select an option"}
       </div>
       <div className="dropdown-options">
         {options.map((option, index) => (

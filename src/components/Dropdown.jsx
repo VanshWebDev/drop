@@ -9,7 +9,7 @@ const CustomDropdown = () => {
   const options = ["Option 1", "Option 2", "Option 3"];
 
   const handleTouchInteraction = (event) => {
-    const touchY = event.touches ? event.touches[0].clientY : event.clientY;
+    const touchY = event.changedTouches ? event.changedTouches[0].clientY : event.clientY;
     seta(touchY);
     console.log("Interaction at:", touchY);
 
@@ -18,8 +18,7 @@ const CustomDropdown = () => {
       const rect = dropdownElement.getBoundingClientRect();
       const optionHeight = rect.height / options.length;
       const index = Math.floor((touchY - rect.top) / optionHeight);
-      const newOption =
-        options[Math.max(0, Math.min(options.length - 1, index))];
+      const newOption = options[Math.max(0, Math.min(options.length - 1, index))];
       setb(newOption);
       console.log("Selected Option:", newOption);
       setSelectedOption(newOption);
@@ -34,8 +33,8 @@ const CustomDropdown = () => {
       onTouchMove={handleTouchInteraction}
       onTouchEnd={handleTouchInteraction}
     >
-      <p>Interaction at:{a}</p>
-      <p>Selected Option:{b}</p>
+      <p>I at: {a}</p>
+      <p>SO: {b}</p>
       <div className="dropdown-display">
         {selectedOption ? `Selected: ${selectedOption}` : "Select an option"}
       </div>
